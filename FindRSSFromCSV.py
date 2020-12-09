@@ -11,7 +11,8 @@ from pprint import pprint as pp
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
-rssApplicationTypes = ['application/rss+xml','application/xml', 'application/xml', 'text/xml']
+rssApplicationTypes = ['application/rss+xml', 'application/atom+xml',
+                       'application/xml', 'text/xml']
 
 if len(sys.argv) < 3:
     message = ('FindRssFromCSV.py <path-to-csv> '
@@ -133,4 +134,6 @@ for rssFeed in foundRSSFeeds:
         continue
     validatedRssFeeds.append([rssFeed[0], rssFeed[1], title])
 
-pp(validatedRssFeeds)
+with open('FindRSSFromCSV.csv', 'w', newline='') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerows(validatedRssFeeds)
