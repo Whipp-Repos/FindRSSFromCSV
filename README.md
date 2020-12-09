@@ -5,7 +5,7 @@ Quick Python to crawl sites for possible RSS Feeds from a CSV of URLs
 python3 FindRSSFromCSV.py [path-to-csv] [index-of-url-column]
 
 # How it works
-Iterates througuh &lt;link&gt; tags on the page for ones with a type that is one of the possible RSS XML feed content types
+Iterates through &lt;link&gt; tags on the page for ones with a type that is one of the possible RSS XML feed content types.
 
 * 'application/rss+xml'
 * 'application/atom+xml'
