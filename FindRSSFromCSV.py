@@ -20,8 +20,7 @@ rssSubDomainOptions = ['feeds']
 rssDefaultPathPossibilities = ['/feed', '/rss.xml',
                                '/xml/rss/all.xml', '/rss', '.rss',
                                '/xml/rss.xml',
-                               '/xml/rss/rss.xml',
-                               '/']
+                               '/xml/rss/rss.xml']
 
 rssDomainSpecificPathPossibilities = [
     {
