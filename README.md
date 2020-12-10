@@ -1,6 +1,16 @@
 # FindRSSFromCSV
 Quick Python to crawl sites for possible RSS Feeds from a CSV of URLs
 
+# Installation (kind of)
+Recommend using this in a virtual environment, since it does have a few dependencies
+
+The usual, to install dependencies:
+    pip install -r requirements.txt
+
+* [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/)
+* [requests](https://pypi.org/project/requests/)
+* [feedparser](https://pypi.org/project/feedparser/)
+
 # Usage
 python3 FindRSSFromCSV.py [path-to-csv] [index-of-url-column]
 
