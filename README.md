@@ -13,7 +13,8 @@ The usual, to install dependencies:
 * [feedparser](https://pypi.org/project/feedparser/)
 
 # Usage
-python3 FindRSSFromCSV.py [path-to-csv] [index-of-url-column]
+
+    python3 FindRSSFromCSV.py [path-to-csv] [index-of-url-column]
 
 # How it works
 
