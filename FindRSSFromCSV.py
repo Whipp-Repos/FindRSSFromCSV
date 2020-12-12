@@ -93,8 +93,11 @@ for url in urlList:
 
     if domainNamePossibility:
         for item in domainNamePossibility:
-            pathParsed = item["Path"]
             path_0 = urlParsed.path.lstrip('/').split('/')[0]
+            domain = "{scheme}://{netloc}".format(
+                scheme=urlParsed.scheme,
+                netloc=urlParsed.netloc)
+            pathParsed = item["Path"]
             defaultPath = pathParsed.format(
                 domain="https://" + urlParsed.netloc,
                 path_0=path_0)
@@ -111,13 +114,16 @@ for url in urlList:
     defaultPossibilities = []
     for domainNameForDefaults in domainNamesForDefaults:
         for defaultPath in rssDefaultPathPossibilities:
-            fullDomainName = "https://{domain}".format(
+            fullDomainName = "{scheme}://{domain}".format(
+                scheme=urlParsed.scheme,
                 domain=domainNameForDefaults)
+
             basePath = urlParsed.path.rstrip('/')
 
             rssPathPossibility = urljoin(
                 fullDomainName,
                 defaultPath)
+
             defaultPossibilities.append(rssPathPossibility)
 
             if urlParsed.path != '' and urlParsed.path != '/':
@@ -143,7 +149,11 @@ for url in urlList:
 
     print(('Requesting {0}'.format(url)))
     resp = req.get(url)
-    baseDomain = "https://{domain}".format(domain=domainName)
+
+    baseDomain = "{scheme}://{domain}".format(
+        scheme=urlParsed.scheme,
+        domain=domainName)
+
     print(('Requesting {0}'.format(baseDomain)))
     respDomain = req.get(baseDomain)
 
@@ -196,9 +206,8 @@ for url in urlList:
         if hrefParsed.path == '':
             continue
 
-        # Skip non http hrefs
-        if (hrefParsed.scheme != 'https'
-                and hrefParsed.scheme != 'http'):
+        # Skip non http(s) hrefs
+        if hrefParsed.scheme[:4] != 'http':
             continue
 
         # Relative Local link
@@ -220,10 +229,12 @@ for url in urlList:
     for link in localLinks:
         print(('Visiting {0}').format(link))
         linkResp = req.head(link)
+
         try:
             linkRespContentType = linkResp.headers['content-type']
         except KeyError:
             continue
+
         applicationType = linkRespContentType.split(';')[0]
         if applicationType in rssApplicationTypes:
             foundRSSFeeds.append([url, link])
@@ -232,7 +243,6 @@ for url in urlList:
            ' Possibilities for {1}').format(len(foundRSSFeeds), url))
 
 validatedRssFeeds = []
-print
 for rssFeed in foundRSSFeeds:
     print(('Checking {0} for actual Feed').format(rssFeed[1]))
     try:
@@ -241,13 +251,14 @@ for rssFeed in foundRSSFeeds:
         print("Rejected")
         continue
     except urllib.error.URLError:
-        print ("Rejected")
+        print("Rejected")
         continue
 
     try:
         title = feed['feed']['title']
     except KeyError:
         continue
+
     validatedRssFeeds.append([rssFeed[0], rssFeed[1], title])
 
 with open('FindRSSFromCSV.csv', 'w', newline='') as csvfile:
